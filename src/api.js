@@ -77,10 +77,10 @@ export async function getUserProfile(
   errorHandler = () => {},
   successHandler = () => {}
 ) {
-  const url = new URL("user/profile", BASE_URL);
+  const url = new URL("student/profile", BASE_URL);
   const response = await fetch(url, {
     headers: {
-      "access-token": `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
   const result = response.json();

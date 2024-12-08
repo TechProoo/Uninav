@@ -37,7 +37,7 @@ const SignUp = () => {
   const messageApi = useContext(MESSAGE_API_CONTEXT);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { userProfile, setUserProfile } = useContext(USER_PROFILE_CONTEXT);
+  const { setUserProfile } = useContext(USER_PROFILE_CONTEXT);
   async function signUpHandler(e) {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -67,13 +67,14 @@ const SignUp = () => {
       console.log
     );
     if (!authData) return;
-    storeAuth(authData.accessToken, authData.refreshToken);
+    storeAuth(authData.access_token, authData.refresh_token);
     const _userProfile = await getUserProfile(
-      authData.userId,
+      authData.access_token,
       errorHandler,
       console.log
     );
     setUserProfile(_userProfile);
+    if (!_userProfile) return;
     navigate("/"); // Redirect to home page;
     messageApi.success("Sign up successful");
   }
@@ -238,7 +239,6 @@ const SignUp = () => {
                     {error}
                   </span>
                 )}
-                <div className="d-flex align-items-center gap-1 rem"></div>
                 <div className="mt-2 lg_btn">
                   <button type="submit">
                     {loading ? (
